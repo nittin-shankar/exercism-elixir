@@ -42,9 +42,9 @@ defmodule BinarySearch do
 
     new_middle_index =
       if is_list_even(new_numbers_list) do
-        (old_middle_index - middle_index)
+        old_middle_index - middle_index
       else
-        (old_middle_index - middle_index) - 1
+        old_middle_index - middle_index - 1
       end
 
     new_middle_values = {new_middle_index, middle_number}
@@ -64,10 +64,10 @@ defmodule BinarySearch do
     binary_search(new_numbers_list, key, new_middle_values)
   end
 
-  def binary_search(_numbers_list, key, {middle_index, middle_number}) when middle_number == key do
+  def binary_search(_numbers_list, key, {middle_index, middle_number})
+      when middle_number == key do
     {:ok, middle_index}
   end
-
 
   def remove_left_side_of_list(numbers_list) do
     {middle_index, _middle_number} = middle_index_and_number(numbers_list)

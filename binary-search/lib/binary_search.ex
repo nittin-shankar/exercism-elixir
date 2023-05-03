@@ -1,4 +1,6 @@
 defmodule BinarySearch do
+  @moduledoc false
+
   @doc """
     Searches for a key in the tuple using the binary search algorithm.
     It returns :not_found if the key is not in the tuple.
@@ -29,11 +31,11 @@ defmodule BinarySearch do
     )
   end
 
-  def binary_search([], _key, _middle_values) do
+  defp binary_search([], _key, _middle_values) do
     :not_found
   end
 
-  def binary_search(numbers_list, key, {middle_index, middle_number}) when middle_number > key do
+  defp binary_search(numbers_list, key, {middle_index, middle_number}) when middle_number > key do
     new_numbers_list = remove_right_side_of_list(numbers_list)
 
     old_middle_index = middle_index
@@ -41,7 +43,7 @@ defmodule BinarySearch do
     {middle_index, middle_number} = middle_index_and_number(new_numbers_list)
 
     new_middle_index =
-      if is_list_even(new_numbers_list) do
+      if list_even?(new_numbers_list) do
         old_middle_index - middle_index
       else
         old_middle_index - middle_index - 1
@@ -52,7 +54,7 @@ defmodule BinarySearch do
     binary_search(new_numbers_list, key, new_middle_values)
   end
 
-  def binary_search(numbers_list, key, {middle_index, middle_number}) when middle_number < key do
+  defp binary_search(numbers_list, key, {middle_index, middle_number}) when middle_number < key do
     new_numbers_list = remove_left_side_of_list(numbers_list)
     old_middle_index = middle_index
 
@@ -64,12 +66,12 @@ defmodule BinarySearch do
     binary_search(new_numbers_list, key, new_middle_values)
   end
 
-  def binary_search(_numbers_list, key, {middle_index, middle_number})
-      when middle_number == key do
+  defp binary_search(_numbers_list, key, {middle_index, middle_number})
+       when middle_number == key do
     {:ok, middle_index}
   end
 
-  def remove_left_side_of_list(numbers_list) do
+  defp remove_left_side_of_list(numbers_list) do
     {middle_index, _middle_number} = middle_index_and_number(numbers_list)
     start_count = middle_index + 1
     end_count = Enum.count(numbers_list)
@@ -77,20 +79,20 @@ defmodule BinarySearch do
     Enum.slice(numbers_list, start_count..end_count)
   end
 
-  def remove_right_side_of_list(numbers_list) do
+  defp remove_right_side_of_list(numbers_list) do
     {middle_index, _middle_number} = middle_index_and_number(numbers_list)
 
     Enum.slice(numbers_list, 0, middle_index)
   end
 
-  def middle_index_and_number(numbers_list) do
+  defp middle_index_and_number(numbers_list) do
     middle_index = Enum.count(numbers_list) |> div(2)
     middle_number = Enum.at(numbers_list, middle_index)
 
     {middle_index, middle_number}
   end
 
-  def is_list_even(numbers_list) do
+  defp list_even?(numbers_list) do
     0 == length(numbers_list) |> rem(2)
   end
 end
